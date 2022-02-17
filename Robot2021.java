@@ -20,15 +20,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Robot2021 extends Robot {
     DcMotor RF, LF, RB, LB, UP, VL, LT; //Создание перременных: моторы
-    Servo boxServo;
+    Servo boxServo; //Серво
     BNO055IMU imu; //Акселерометр
 
     Orientation angles;
     Acceleration gravity;
 
-    double k;
+    double k; //Коофицент
 
-    double vlpw=0;
+    double vlpw=0; //Мощность для вала
 
     @Override
     void init() { //Инициализация:
@@ -39,7 +39,7 @@ public class Robot2021 extends Robot {
         RF = hwmp.get(DcMotor.class, "RF");
         VL = hwmp.get(DcMotor.class, "VL");
         LT = hwmp.get(DcMotor.class, "LT");
-        boxServo = hwmp.get(Servo.class, "BS");
+        boxServo = hwmp.get(Servo.class, "BS"); //Серво
         LF.setDirection(DcMotor.Direction.REVERSE);
         RF.setDirection(DcMotor.Direction.REVERSE);
         LT.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -63,10 +63,10 @@ public class Robot2021 extends Robot {
         imu.initialize(parameters);
         while (!imu.isGyroCalibrated()) { //Калибровка акселерометра
             delay(30);
-            telemetry.addData("Wait", "Calibration");
+            telemetry.addData("Wait", "Calibration"); //Сообщение о калибровке
             telemetry.update();
         }
-        telemetry.addData("Done!", "Calibrated");
+        telemetry.addData("Done!", "Calibrated"); //Сообщение об окончании калибровки
         telemetry.update();
 
     }
@@ -118,7 +118,7 @@ public class Robot2021 extends Robot {
         }
         while ( Math.abs(degrees - getAngle())-4 > 5 ) {
                 k = 1;
-                double pwf = pw * (k * getAngle() - degrees);
+                double pwf = pw * (k * getAngle() - degrees); //Прапорциональный регулятор
                 setMtPower(pwf, pwf, pwf, pwf);
             }
         setMtPower(0, 0, 0, 0);
