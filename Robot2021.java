@@ -203,11 +203,11 @@ public class Robot2021 extends Robot {
     void drop() { //Функция автонома: скидывание
         boxServo.setPosition(0.8);
         //подъём коробки
-        LT.setPower(-0.6);  //начальное ускорение
+        LT.setPower(-0.7);  //начальное ускорение
         VL.setPower(-0.7);
         delay(400);
         LT.setPower(-0.35);    //спокойная скорость
-        delay(500);
+        delay(600);
         LT.setPower(0);      //стоп
         VL.setPower(0);
         delay(500);
@@ -218,14 +218,16 @@ public class Robot2021 extends Robot {
         boxServo.setPosition(0.8);
         delay(500);
         //опускание коробки
-        LT.setPower(0.3);
+        LT.setPower(0.5);
+        VL.setPower(0.5);
         delay(900);
+        VL.setPower(0);
         LT.setPower(0);
     }
 
     void vlRot() { //Функция автонома: поворот вала
         VL.setPower(-0.7);
-        delay(5000);
+        delay(2000);
         VL.setPower(0);
     }
 
