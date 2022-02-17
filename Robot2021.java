@@ -232,10 +232,12 @@ public class Robot2021 extends Robot {
         boxServo.setPosition(0.8);
         //подъём коробки
         LT.setPower(-0.6);  //начальное ускорение
+        VL.setPower(-0.7);
         delay(400);
         LT.setPower(-0.35);    //спокойная скорость
-        delay(400);
+        delay(500);
         LT.setPower(0);      //стоп
+        VL.setPower(0);
         delay(500);
         //серво-открыть
         boxServo.setPosition(0.25);
@@ -247,15 +249,11 @@ public class Robot2021 extends Robot {
         LT.setPower(0.3);
         delay(900);
         LT.setPower(0);
-        delay(500);
-        VL.setPower(0.5);
-        delay(1000);
-        VL.setPower(0);
     }
 
     void vlRot() {
         VL.setPower(-0.7);
-        delay(3000);
+        delay(5000);
         VL.setPower(0);
     }
 
