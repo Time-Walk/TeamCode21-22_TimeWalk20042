@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@Autonomous(name="СН.ДОСТАВКА,ЗАГРЁБ,ДОСТАВКА,СКЛАД", group="СИНИЙ")
+@Autonomous(name="СН.ГРУЗ,ЗАГРЁБ,ГРУЗ,СКЛАД", group="СИНИЙ")
 public class BlueGruzTakeGruzToSklad extends LinearOpMode { //YOU SHOULD CHANGE HERE TO YOUR FILE NAME
     @Override
     public void runOpMode() throws InterruptedException {

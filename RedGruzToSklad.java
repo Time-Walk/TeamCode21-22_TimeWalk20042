@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@Autonomous(name="КР.ДОСТАВКА,СКЛАД", group="КРАСНЫЙ")
+@Autonomous(name="КР.ГРУЗ,СКЛАД", group="КРАСНЫЙ")
 public class RedGruzToSklad extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
