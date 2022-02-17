@@ -26,8 +26,6 @@ public class Robot2021 extends Robot {
     Orientation angles;
     Acceleration gravity;
 
-    double angle1;
-
     double k;
 
     double vlpw=0;
@@ -109,7 +107,6 @@ public class Robot2021 extends Robot {
     }
 
     void rotate (double degrees, double pw) { //Функция автонома: поворот
-        angle1 = getAngle();
         degrees = getAngle() - degrees;
         if (degrees < -180) {
             degrees += 360;
