@@ -201,33 +201,6 @@ public class Robot2021 extends Robot {
         }
     };
 
-    /*void liftController() {
-        if (gamepad2.y) {
-            LT.setPower(-0.6);  //начальное ускорение
-            delay(400);
-            LT.setPower(-0.35);    //спокойная скорость
-            delay(400);
-            LT.setPower(0);      //стоп
-        }
-        if (gamepad2.a) {
-            LT.setPower(0.3);
-            delay(900);
-            LT.setPower(0);
-        }
-        if (gamepad2.x) {
-            LT.setPower(-0.6);  //начальное ускорение
-            delay(400);
-            LT.setPower(-0.35);    //спокойная скорость
-            delay(100);
-            LT.setPower(0);      //стоп
-        }
-        if (gamepad2.b) {
-            LT.setPower(0.3);
-            delay(700);
-            LT.setPower(0);
-        }
-    }*/
-
     void drop() {
         boxServo.setPosition(0.8);
         //подъём коробки
