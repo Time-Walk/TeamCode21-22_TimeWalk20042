@@ -189,7 +189,7 @@ public class Robot2021 extends Robot {
                     LT.setPower(-0.6);  //начальное ускорение
                     delay(400);
                     LT.setPower(-0.35);    //спокойная скорость
-                    delay(200);
+                    delay(300);
                     LT.setPower(0);      //стоп
                 }
                 if (gamepad2.b) {
