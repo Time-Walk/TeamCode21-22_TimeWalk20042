@@ -171,12 +171,37 @@ public class Robot2021 extends Robot {
         @Override
         public void run() {
             while (L.opModeIsActive() && !L.isStopRequested()) {
-                liftController();
+                LT.setPower(gamepad2.left_stick_y/3);
+                if (gamepad2.y) {
+                    LT.setPower(-0.6);  //начальное ускорение
+                    delay(400);
+                    LT.setPower(-0.35);    //спокойная скорость
+                    delay(400);
+                    LT.setPower(0);      //стоп
+                }
+                if (gamepad2.a) {
+                    LT.setPower(0.3);
+                    delay(900);
+                    LT.setPower(0);
+                    UP.setPower(1);
+                }
+                if (gamepad2.x) {
+                    LT.setPower(-0.6);  //начальное ускорение
+                    delay(400);
+                    LT.setPower(-0.35);    //спокойная скорость
+                    delay(200);
+                    LT.setPower(0);      //стоп
+                }
+                if (gamepad2.b) {
+                    LT.setPower(0.3);
+                    delay(500);
+                    LT.setPower(0);
+                }
             }
         }
     };
 
-    void liftController() {
+    /*void liftController() {
         if (gamepad2.y) {
             LT.setPower(-0.6);  //начальное ускорение
             delay(400);
@@ -201,7 +226,7 @@ public class Robot2021 extends Robot {
             delay(700);
             LT.setPower(0);
         }
-    }
+    }*/
 
     void drop() {
         boxServo.setPosition(0.8);

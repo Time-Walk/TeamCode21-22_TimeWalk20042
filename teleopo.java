@@ -17,7 +17,6 @@ public class teleopo extends LinearOpMode {
         telemetry.update();
         while (!isStopRequested()){
             R.UP.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
-            R.LT.setPower(gamepad2.left_stick_y/3);
             R.wheelbase();
             R.servoController();
             R.smartRotate();
