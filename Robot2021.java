@@ -26,7 +26,7 @@ public class Robot2021 extends Robot {
     Orientation angles;
     Acceleration gravity;
 
-    double k; //Коофицент
+    double k; //Коэффициент
 
     double vlpw=0; //Мощность для вала
 
