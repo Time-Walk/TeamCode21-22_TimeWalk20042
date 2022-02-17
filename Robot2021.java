@@ -72,29 +72,29 @@ public class Robot2021 extends Robot {
     }
 
     @Override
-    void initFields(Telemetry telemetry, LinearOpMode L, HardwareMap hwmp) { //Инициализация всего
+    void initFields(Telemetry telemetry, LinearOpMode L, HardwareMap hwmp) { //Инициализация
         this.telemetry = telemetry;
         this.L = L;
         this.hwmp = hwmp;
 
     }
 
-    void setMtPower(double rb,double rf,double lf,double lb){ //Устоновить на моторы
+    void setMtPower(double rb,double rf,double lf,double lb){ //Устоновить мощность на моторы
         RF.setPower(rf);
         LF.setPower(lf);
         RB.setPower(rb);
         LB.setPower(lb);
     }
 
-    void wheelbase (){ //Функция считывания с джостика 1
-        double l = gamepad1.left_stick_x - gamepad1.left_stick_y; //1
-        double r = gamepad1.left_stick_x + gamepad1.left_stick_y; //1
+    void wheelbase (){ //Функция мощностей считывания с джостика
+        double l = gamepad1.left_stick_x - gamepad1.left_stick_y;
+        double r = gamepad1.left_stick_x + gamepad1.left_stick_y;
         setMtPower(r, r, l, l);
 
 
     }
 
-    void goForward (long x, double pw){ //Функция автонома: ехать вперед можно и назад
+    void goForward (long x, double pw){ //Функция автонома: ехать вперед (можно и назад)
         setMtPower(-pw, -pw, pw, pw);
         L.sleep(x);
         setMtPower(0, 0, 0, 0);
@@ -146,7 +146,7 @@ public class Robot2021 extends Robot {
         }
     }
 
-    void valController() {
+    void valController() { //Поворот вала
         vlpw=0;
         if ( gamepad2.left_bumper ) {
             vlpw = 0.7;
@@ -158,7 +158,7 @@ public class Robot2021 extends Robot {
     }
 
 
-    void servoController() {
+    void servoController() { //Открытие коробки
         if ( gamepad2.dpad_up ) {
             boxServo.setPosition(0.45);
         }
@@ -167,32 +167,31 @@ public class Robot2021 extends Robot {
         }
     }
 
-    Thread liftControllerT = new Thread() {
+    Thread liftControllerT = new Thread() { //Поток для лифта
         @Override
         public void run() {
             while (L.opModeIsActive() && !L.isStopRequested()) {
-                LT.setPower(gamepad2.left_stick_y/3);
-                if (gamepad2.y) {
+                LT.setPower(gamepad2.left_stick_y/3); //Управление лифтом стиком
+                if (gamepad2.y) { //Поднять до конца
                     LT.setPower(-0.6);  //начальное ускорение
                     delay(400);
                     LT.setPower(-0.35);    //спокойная скорость
                     delay(400);
                     LT.setPower(0);      //стоп
                 }
-                if (gamepad2.a) {
+                if (gamepad2.a) { //Опустить
                     LT.setPower(0.3);
                     delay(900);
                     LT.setPower(0);
-                    UP.setPower(1);
                 }
-                if (gamepad2.x) {
+                if (gamepad2.x) { //Поднять до вертикального положения
                     LT.setPower(-0.6);  //начальное ускорение
                     delay(400);
                     LT.setPower(-0.35);    //спокойная скорость
                     delay(300);
                     LT.setPower(0);      //стоп
                 }
-                if (gamepad2.b) {
+                if (gamepad2.b) { //Опустить
                     LT.setPower(0.3);
                     delay(500);
                     LT.setPower(0);
@@ -201,7 +200,7 @@ public class Robot2021 extends Robot {
         }
     };
 
-    void drop() {
+    void drop() { //Функция автонома: скидывание
         boxServo.setPosition(0.8);
         //подъём коробки
         LT.setPower(-0.6);  //начальное ускорение
@@ -224,7 +223,7 @@ public class Robot2021 extends Robot {
         LT.setPower(0);
     }
 
-    void vlRot() {
+    void vlRot() { //Функция автонома: поворот вала
         VL.setPower(-0.7);
         delay(5000);
         VL.setPower(0);
