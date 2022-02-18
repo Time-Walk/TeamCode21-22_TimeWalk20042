@@ -20,7 +20,7 @@ public class RedDuckGruzSafe extends LinearOpMode {
         R.goForward(500, 1);
         R.delay(1000);
         R.rotate(-83, 0.3);
-        R.goForward(500, -1);
+        R.goForward(550, -1);
         R.drop();
         R.rotate(6, 0.5);
         R.goForward(550, 1);
