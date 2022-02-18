@@ -1,5 +1,3 @@
-
-
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -207,7 +205,7 @@ public class Robot2021 extends Robot {
         VL.setPower(-0.7);
         delay(400);
         LT.setPower(-0.35);    //спокойная скорость
-        delay(600);
+        delay(400);
         LT.setPower(0);      //стоп
         VL.setPower(0);
         delay(500);
