@@ -17,7 +17,7 @@ public class RedDuckToSafe extends LinearOpMode {
         R.goForward(130, 0.25);
         R.duckVoid(-1);
         R.rotate(20, 0.8);
-        R.goForward(400, 1);
+        R.goForward(500, 1);
     }
 
 }

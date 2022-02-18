@@ -6,16 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Autonomous(name="КР.УТКА,ГРУЗ,СЕЙФ", group="КРАСНЫЙ")
 public class RedDuckGruzSafe extends LinearOpMode {
-
-
-
-
-
-
-
-
-
-
     @Override
     public void runOpMode() throws InterruptedException {
         Robot2021 R = new Robot2021();
@@ -27,10 +17,10 @@ public class RedDuckGruzSafe extends LinearOpMode {
         R.goForward(130, 0.25);
         R.duckVoid(-1);
         R.rotate(20, 0.8);
-        R.goForward(400, 1);
+        R.goForward(500, 1);
         R.delay(1000);
         R.rotate(-83, 0.3);
-        R.goForward(550, -1);
+        R.goForward(500, -1);
         R.drop();
         R.rotate(6, 0.5);
         R.goForward(550, 1);

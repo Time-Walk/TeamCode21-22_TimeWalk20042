@@ -22,6 +22,7 @@ public class BlueDuckGruzSafe extends LinearOpMode { //YOU SHOULD CHANGE HERE TO
         R.rotate(-50, 0.5);
         R.goForward(500, -1);
         R.drop();
+        R.rotate(-7, 0.5);
         R.goForward(475, 1);
 
 
