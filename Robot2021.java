@@ -229,6 +229,12 @@ public class Robot2021 extends Robot {
         VL.setPower(0);
     }
 
+    void rotateForTime(long x, double pw) {
+        setMtPower(pw, pw, pw, pw);
+        delay(x);
+        setMtPower(0, 0, 0, 0);
+    }
+
 }
 
 

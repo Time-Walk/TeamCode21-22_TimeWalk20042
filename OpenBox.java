@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Autonomous(name="ПО ПРИКАЗУ ГЕНЕРАЛА ГАВСА", group="")
-@Disabled
 public class OpenBox extends LinearOpMode { //YOU SHOULD CHANGE HERE TO YOUR FILE NAME
     @Override
     public void runOpMode() throws InterruptedException {
@@ -18,6 +17,8 @@ public class OpenBox extends LinearOpMode { //YOU SHOULD CHANGE HERE TO YOUR FIL
         //okay, let's go!
 
         R.boxServo.setPosition(0.45);
+        R.delay(5000);
+        R.boxServo.setPosition(0.78);
         R.delay(1000);
 
 
