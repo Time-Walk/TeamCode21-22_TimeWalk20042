@@ -17,6 +17,7 @@ public class RedDuckToSklad extends LinearOpMode {
         R.goForward(130, 0.25);
         R.duckVoid(-1);
         R.rotate(-35, 1);
+        R.delay(10000);
         R.goForward(2000, -1);
     }
 

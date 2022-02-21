@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Autonomous(name="АВТОНОМ ДЛЯ ТЕСТА")
-@Disabled
+//@Disabled
 public class AUTOFORTEST extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -15,8 +15,7 @@ public class AUTOFORTEST extends LinearOpMode {
         R.init();
         waitForStart();
         //okay, let's go!
-        R.vlRot();
-        R.drop();
+        R.go(1090 , 0.5);
 
 
     }

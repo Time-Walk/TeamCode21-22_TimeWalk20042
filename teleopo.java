@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name="TeleOp")
 public class teleopo extends LinearOpMode {
@@ -15,6 +16,8 @@ public class teleopo extends LinearOpMode {
         R.liftControllerT.start();
         telemetry.clearAll();
         telemetry.update();
+        R.LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        R.LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while (!isStopRequested()){
             R.UP.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
             R.wheelbase();
@@ -22,6 +25,8 @@ public class teleopo extends LinearOpMode {
             R.smartRotate();
             R.valController();
             //R.DEBUG();
+            telemetry.addData("ticks", R.LB.getCurrentPosition());
+            telemetry.update();
         }
 
     }

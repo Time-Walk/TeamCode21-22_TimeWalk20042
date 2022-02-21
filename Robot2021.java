@@ -40,7 +40,8 @@ public class Robot2021 extends Robot {
         boxServo = hwmp.get(Servo.class, "BS"); //Серво
         LF.setDirection(DcMotor.Direction.REVERSE);
         RF.setDirection(DcMotor.Direction.REVERSE);
-        LT.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //Режим остоновки: торможение
         RF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -87,7 +88,7 @@ public class Robot2021 extends Robot {
     void wheelbase (){ //Функция мощностей считывания с джостика
         double l = gamepad1.left_stick_x - gamepad1.left_stick_y;
         double r = gamepad1.left_stick_x + gamepad1.left_stick_y;
-        setMtPower(r, r, l, l);
+        setMtPower(r/2, r/2, l/2, l/2);
 
 
     }
@@ -197,6 +198,28 @@ public class Robot2021 extends Robot {
             }
         }
     };
+
+    void go(double m, double pw) { //
+        LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        /*if (degrees < -180) {
+            degrees += 360;
+            pw = pw * -1;
+        }
+        if (degrees > 180) {
+            degrees -= 360;
+            pw = pw * -1;
+        }*/
+        //while (LB.getCurrentPosition() < m) { setMtPower(-pw, -pw, pw, pw); }
+        while ( Math.abs(m - LB.getCurrentPosition()) > 5 ) {
+            k = 1;
+            double pwf = pw * (k * m - LB.getCurrentPosition()); //Прапорциональный регулятор
+            setMtPower(-pwf, -pwf, pwf, pwf);
+        }
+        setMtPower(0, 0, 0, 0);
+    }
+
+
 
     void drop() { //Функция автонома: скидывание
         boxServo.setPosition(0.8);
