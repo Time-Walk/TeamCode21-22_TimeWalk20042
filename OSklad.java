@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@Autonomous(name="СН.УТКА,СЕЙФ", group="СИНИЙ")
-@Disabled
-public class BlueDuckToSafe extends LinearOpMode {
+@Autonomous(name="Склад", group="")
+public class OSklad extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Robot2021 R = new Robot2021();
@@ -16,10 +14,9 @@ public class BlueDuckToSafe extends LinearOpMode {
         waitForStart();
 
         //okay, let's go!
-        R.goForward(130, -0.25);
-        R.duckVoid(1);
-        R.rotate(-25, 0.5);
-        R.goForward(350, -1);
+        R.go(3000, 0.5);
+
+
     }
 
 }

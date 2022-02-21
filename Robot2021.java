@@ -115,12 +115,13 @@ public class Robot2021 extends Robot {
             degrees -= 360;
             pw = pw * -1;
         }
-        while ( Math.abs(degrees - getAngle())-4 > 5 ) {
+        while ( Math.abs(degrees - getAngle()) > 5 ) {
                 k = 1;
                 double pwf = pw * (k * getAngle() - degrees); //Прапорциональный регулятор
                 setMtPower(pwf, pwf, pwf, pwf);
             }
         setMtPower(0, 0, 0, 0);
+        delay(1500);
     }
 
     void duckVoid(double pw) { //Функция автонома: скидывание уточки
@@ -159,7 +160,7 @@ public class Robot2021 extends Robot {
 
     void servoController() { //Открытие коробки
         if ( gamepad2.dpad_up ) {
-            boxServo.setPosition(0.45);
+            boxServo.setPosition(1);
         }
         if ( gamepad2.dpad_down ) {
             boxServo.setPosition(0.78);
@@ -199,7 +200,7 @@ public class Robot2021 extends Robot {
         }
     };
 
-    void go(double m, double pw) { //
+    void go(double cm, double pw) { //
         LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         /*if (degrees < -180) {
@@ -211,12 +212,14 @@ public class Robot2021 extends Robot {
             pw = pw * -1;
         }*/
         //while (LB.getCurrentPosition() < m) { setMtPower(-pw, -pw, pw, pw); }
-        while ( Math.abs(m - LB.getCurrentPosition()) > 5 ) {
+        double cc = (400 * cm) / 32.97;
+        while ( cc - LB.getCurrentPosition() > 5 ) {
             k = 1;
-            double pwf = pw * (k * m - LB.getCurrentPosition()); //Прапорциональный регулятор
+            double pwf = pw * (k * cc - LB.getCurrentPosition()); //Прапорциональный регулятор
             setMtPower(-pwf, -pwf, pwf, pwf);
         }
         setMtPower(0, 0, 0, 0);
+        delay(1500);
     }
 
 
@@ -237,6 +240,8 @@ public class Robot2021 extends Robot {
         delay(1000);
         //серво-закрыть
         boxServo.setPosition(0.8);
+        delay(500);
+        go(250, 0.3);
         delay(500);
         //опускание коробки
         LT.setPower(0.5);
