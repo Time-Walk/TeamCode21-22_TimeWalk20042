@@ -18,7 +18,7 @@ public class BlueDuckToSafe extends LinearOpMode {
         //okay, let's go!
         R.goForward(130, -0.25);
         R.duckVoid(1);
-        R.rotate(-25, 0.5);
+        //R.rotate(-25, 0.5);
         R.goForward(350, -1);
     }
 

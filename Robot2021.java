@@ -88,7 +88,7 @@ public class Robot2021 extends Robot {
     void wheelbase (){ //Функция мощностей считывания с джостика
         double l = gamepad1.left_stick_x - gamepad1.left_stick_y;
         double r = gamepad1.left_stick_x + gamepad1.left_stick_y;
-        setMtPower(r/2, r/2, l/2, l/2);
+        setMtPower(r, r, l, l);
 
 
     }
@@ -105,7 +105,10 @@ public class Robot2021 extends Robot {
         return angles.firstAngle;
     }
 
-    void rotate (double degrees, double pw) { //Функция автонома: поворот
+    void rotate (double degrees) { //Функция автонома: поворот
+        double pw = 1;
+        double d1 = -degrees;
+        if (d1 > 0) { pw = -1; }
         degrees = getAngle() - degrees;
         if (degrees < -180) {
             degrees += 360;
@@ -116,10 +119,21 @@ public class Robot2021 extends Robot {
             pw = pw * -1;
         }
         while ( Math.abs(degrees - getAngle()) > 5 ) {
-                k = 1;
-                double pwf = pw * (k * getAngle() - degrees); //Прапорциональный регулятор
+                k = 0.9;
+                double pwf = pw * (k * (map(degrees - getAngle(), 0, d1, 0, 0.4)+0.4)); //Прапорциональный регулятор
                 setMtPower(pwf, pwf, pwf, pwf);
+                telemetry.addData("degrees", degrees);
+                telemetry.addData("d1", d1);
+                telemetry.addData("degrees - getaAngle()", degrees-getAngle());
+                telemetry.addData("getAngle()", getAngle());
+                telemetry.addData("k", k);
+                telemetry.addData("map", map(degrees - getAngle(), 0, degrees, 0.5, 1));
+                telemetry.addData("pw", pw);
+                telemetry.addData("pwf", pwf);
+                telemetry.update();
             }
+        telemetry.addData("pwf", 0);
+        telemetry.update();
         setMtPower(0, 0, 0, 0);
         delay(1500);
     }
@@ -132,17 +146,19 @@ public class Robot2021 extends Robot {
 
     void DEBUG() { //Функция для дебагинга
         if ( gamepad1.x ) {
+            rotate(-90);
         }
         if ( gamepad1.b ) {
+            rotate(90);
         }
     }
 
     void smartRotate() { //Помощь для драйверов
         if ( gamepad1.x ) {
-            rotate(-30, 1);
+            rotate(-30);
         }
         if ( gamepad1.b ) {
-            rotate(30, 1);
+            rotate(30);
         }
     }
 
@@ -222,6 +238,34 @@ public class Robot2021 extends Robot {
         delay(1500);
     }
 
+    void back(double cm, double pw) { //
+        LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        /*if (degrees < -180) {
+            degrees += 360;
+            pw = pw * -1;
+        }
+        if (degrees > 180) {
+            degrees -= 360;
+            pw = pw * -1;
+        }*/
+        //while (LB.getCurrentPosition() < m) { setMtPower(-pw, -pw, pw, pw); }
+        double cc = -((400 * cm) / 32.97);
+        while ( cc - LB.getCurrentPosition() < -5 ) {
+            k = 1;
+            double pwf = pw * (k * cc - LB.getCurrentPosition()); //Прапорциональный регулятор
+            setMtPower(-pwf, -pwf, pwf, pwf);
+            telemetry.addData("cc", cc - LB.getCurrentPosition());
+            telemetry.addData("ccBase", cc);
+            telemetry.update();
+        }
+        setMtPower(0, 0, 0, 0);
+        delay(1500);
+    }
+
+    double map(double what, double f1, double t1, double f2, double t2) {
+        return (what * (f2 + t2)) / (f1 + t1);
+    }
 
 
     void drop() { //Функция автонома: скидывание
@@ -241,7 +285,7 @@ public class Robot2021 extends Robot {
         //серво-закрыть
         boxServo.setPosition(0.8);
         delay(500);
-        go(250, 0.3);
+        go(20, 0.3);
         delay(500);
         //опускание коробки
         LT.setPower(0.5);

@@ -14,7 +14,9 @@ public class OSklad extends LinearOpMode {
         waitForStart();
 
         //okay, let's go!
-        R.go(3000, 0.5);
+        R.go(60, 0.3);
+        R.rotate(90);
+        R.go(130, 0.3);
 
 
     }

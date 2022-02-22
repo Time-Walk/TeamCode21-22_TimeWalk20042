@@ -18,7 +18,7 @@ public class BlueDuckToSklad extends LinearOpMode {
         //okay, let's go!
         R.goForward(130, -0.25);
         R.duckVoid(1);
-        R.rotate(35, 1);
+        //R.rotate(35, 1);
         R.goForward(2000, 1);
 
     }

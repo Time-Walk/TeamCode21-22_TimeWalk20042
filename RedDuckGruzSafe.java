@@ -18,10 +18,10 @@ public class RedDuckGruzSafe extends LinearOpMode {
         //okay, let's go
         R.goForward(130, 0.25);
         R.duckVoid(-1);
-        R.rotate(20, 0.8);
+        //R.rotate(20, 0.8);
         R.goForward(500, 1);
         R.delay(1000);
-        R.rotate(-83, 0.3);
+        //R.rotate(-83, 0.3);
         R.goForward(500, -1);
         R.drop();
         R.goForward(575, 1);

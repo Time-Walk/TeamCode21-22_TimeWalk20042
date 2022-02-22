@@ -16,17 +16,13 @@ public class teleopo extends LinearOpMode {
         R.liftControllerT.start();
         telemetry.clearAll();
         telemetry.update();
-        R.LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        R.LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while (!isStopRequested()){
             R.UP.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
             R.wheelbase();
             R.servoController();
-            R.smartRotate();
+            //R.smartRotate();
             R.valController();
-            //R.DEBUG();
-            telemetry.addData("ticks", R.LB.getCurrentPosition());
-            telemetry.update();
+            R.DEBUG();
         }
 
     }

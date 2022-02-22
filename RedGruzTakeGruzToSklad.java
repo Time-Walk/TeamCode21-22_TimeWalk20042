@@ -18,9 +18,9 @@ public class RedGruzTakeGruzToSklad extends LinearOpMode {
         //okay, let's go!
         R.goForward(350, -1);
         R.drop();
-        R.rotate(-60, 0.5);
+        //R.rotate(-60, 0.5);
         R.goForward(1400, 1);
-        R.rotate(45, 0.4);
+        //R.rotate(45, 0.4);
         R.vlRot();
         R.goForward(1000, -1);
         R.drop();
