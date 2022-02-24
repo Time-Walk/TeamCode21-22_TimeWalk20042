@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Autonomous(name="Красный.Груз,Склад", group="К")
-public class ExampleAutoModeCode extends LinearOpMode { 
+public class RedGruzSklad extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Robot2021 R = new Robot2021();

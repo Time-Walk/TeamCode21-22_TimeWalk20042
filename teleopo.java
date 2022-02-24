@@ -14,15 +14,13 @@ public class teleopo extends LinearOpMode {
         R.gamepad_init(gamepad1,gamepad2);
         waitForStart();
         R.liftControllerT.start();
-        telemetry.clearAll();
-        telemetry.update();
         while (!isStopRequested()){
             R.UP.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
             R.wheelbase();
             R.servoController();
-            //R.smartRotate();
+            R.smartRotate();
             R.valController();
-            R.DEBUG();
+            //R.DEBUG();
         }
 
     }

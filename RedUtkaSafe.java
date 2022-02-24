@@ -17,7 +17,7 @@ public class RedUtkaSafe extends LinearOpMode {
 	R.go(30);
 	R.rotate(-80);
 	R.go(60);
-	R.duckvoid(-1);
+	R.duckVoid(-1);
 	R.back(30);
 	R.rotate(90);
 	R.go(60);
