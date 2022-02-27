@@ -14,13 +14,13 @@ public class RedUtkaSafe extends LinearOpMode {
         waitForStart();
 
         //okay, let's go!
-	R.go(30);
-	R.rotate(-80);
-	R.go(60);
-	R.duckVoid(-1);
-	R.back(30);
-	R.rotate(90);
-	R.go(60);
+        R.go(10);
+        R.rotate(-80);
+        R.go(90);
+        R.duckVoid(-1);
+        R.back(10);
+        R.rotate(45);
+        R.go(80);
 
 
     }

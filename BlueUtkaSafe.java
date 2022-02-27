@@ -14,13 +14,17 @@ public class BlueUtkaSafe extends LinearOpMode {
         waitForStart();
 
         //okay, let's go!
-	R.go(30);
-	R.rotate(-100);
-	R.back(60);
-	R.duckVoid(1);
-	R.go(30);
-	R.rotate(-90);
-	R.go(60);
+        R.back(120);
+        R.rotate(-80);
+        R.back(20);
+        R.drop();
+        R.go(65);
+        R.rotateForTime(1000, 0.5);
+        R.go(80);
+        R.rotate(-20);
+        R.go(60);
+        R.duckVoid(1);
+        R.back(80);
 	
 
 

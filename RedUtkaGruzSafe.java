@@ -14,22 +14,19 @@ public class RedUtkaGruzSafe extends LinearOpMode {
         waitForStart();
 
         //okay, let's go!
-        R.back(90);
-	R.rotate(90);
-	R.drop();
-	R.rotate(-90);
-	R.go(60);
-	R.rotate(90);
-	R.go(60);
-	R.rotate(10);
-	R.go(30);
-	R.duckVoid(-1);
-	R.back(30);
-	R.rotate(-10);
-	R.rotate(90);
-	R.go(60);
-	R.rotate(-90);
-	R.go(60);
+        R.back(120);
+		R.rotate(90);
+		R.back(30);
+		R.drop();
+		R.go(60);
+		R.rotateForTime(1000, 0.5);
+		R.back(60);
+		R.rotate(-10);
+		R.back(50);
+		R.rotate(-10);
+		R.goForward(150, -0.4);
+		R.duckVoid(-1);
+		R.go(75);
 
     }
 

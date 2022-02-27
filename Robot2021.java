@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import androidx.appcompat.app.ActionBar;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -40,8 +42,8 @@ public class Robot2021 extends Robot {
         boxServo = hwmp.get(Servo.class, "BS"); //Серво
         LF.setDirection(DcMotor.Direction.REVERSE);
         RF.setDirection(DcMotor.Direction.REVERSE);
-        LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //Режим остоновки: торможение
         RF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -90,7 +92,6 @@ public class Robot2021 extends Robot {
         double r = gamepad1.left_stick_x + gamepad1.left_stick_y;
         setMtPower(r, r, l, l);
 
-
     }
 
     void goForward (long x, double pw){ //Функция автонома: ехать вперед (можно и назад)
@@ -121,15 +122,21 @@ public class Robot2021 extends Robot {
             d1 = d1 * -1;
             errFix=2;
         }
-        while ( Math.abs(degrees - getAngle()) > 2 ) {
+        while ( Math.abs(degrees - getAngle()) > 5  && L.opModeIsActive()) {
                 if (getAngle() > 0 && errFix==1) { d1 = d1 * -1; errFix=0; }
                 if (getAngle() < 0 && errFix==2) { d1 = d1 * -1; errFix=0; }
                 k = 0.9;
                 double pwf = pw * (k * (map(degrees - getAngle(), 0, d1, 0, 0.4)+0.4)); //Прапорциональный регулятор
                 setMtPower(pwf, pwf, pwf, pwf);
+                telemetry.addData("d1", d1);
+                telemetry.addData("getAn", getAngle());
+                telemetry.addData("pwf", pwf);
+                telemetry.update();
             }
+        telemetry.addData("a", "a");
+        telemetry.update();
         setMtPower(0, 0, 0, 0);
-        delay(1500);
+        delay(1000);
     }
 
     void duckVoid(double pw) { //Функция автонома: скидывание уточки
@@ -179,7 +186,7 @@ public class Robot2021 extends Robot {
         @Override
         public void run() {
             while (L.opModeIsActive() && !L.isStopRequested()) {
-                LT.setPower(gamepad2.left_stick_y/3); //Управление лифтом стиком
+                LT.setPower(gamepad2.left_stick_y/2.5); //Управление лифтом стиком
                 if (gamepad2.y) { //Поднять до конца
                     LT.setPower(-0.6);  //начальное ускорение
                     delay(400);
@@ -196,11 +203,11 @@ public class Robot2021 extends Robot {
                     LT.setPower(-0.6);  //начальное ускорение
                     delay(400);
                     LT.setPower(-0.35);    //спокойная скорость
-                    delay(300);
+                    delay(600);
                     LT.setPower(0);      //стоп
                 }
                 if (gamepad2.b) { //Опустить
-                    LT.setPower(0.3);
+                    LT.setPower(0.6);
                     delay(500);
                     LT.setPower(0);
                 }
@@ -222,13 +229,13 @@ public class Robot2021 extends Robot {
         }*/
         //while (LB.getCurrentPosition() < m) { setMtPower(-pw, -pw, pw, pw); }
         double cc = (400 * cm) / 32.97;
-        while ( cc - LB.getCurrentPosition() > 5 ) {
+        while ( cc - LB.getCurrentPosition() > 5 && L.opModeIsActive()) {
             k = 0.9;
-            double pwf = pw * (k * map(cc - LB.getCurrentPosition(), 0, cc, 0, 0.3)+0.1); //Прапорциональный регулятор
+            double pwf = pw * (k * map(cc - LB.getCurrentPosition(), 0, cc, 0, 0.3)+0.2); //Прапорциональный регулятор
             setMtPower(-pwf, -pwf, pwf, pwf);
         }
         setMtPower(0, 0, 0, 0);
-        delay(1500);
+        delay(500);
     }
 
     void back(double cm) { //
@@ -245,20 +252,13 @@ public class Robot2021 extends Robot {
         }*/
         //while (LB.getCurrentPosition() < m) { setMtPower(-pw, -pw, pw, pw); }
         double cc = -((400 * cm) / 32.97);
-        while ( cc - LB.getCurrentPosition() < -5 ) {
+        while ( cc - LB.getCurrentPosition() < -5  && L.opModeIsActive()) {
             k = 1;
-            double pwf = pw * (k * map(cc - LB.getCurrentPosition(), 0, cc, 0, 0.3)+0.1); //Прапорциональный регулятор
+            double pwf = pw * (k * map(cc - LB.getCurrentPosition(), 0, cc, 0, 0.3)+0.2); //Прапорциональный регулятор
             setMtPower(-pwf, -pwf, pwf, pwf);
-            telemetry.addData("cc", cc);
-            telemetry.addData("curr", LB.getCurrentPosition());
-            telemetry.addData("cc-curr", cc - LB.getCurrentPosition());
-            telemetry.addData("pwf", pwf);
-            telemetry.update();
         }
-        telemetry.addData("back", "stopped");
-        telemetry.update();
         setMtPower(0, 0, 0, 0);
-        delay(1500);
+        delay(500);
     }
 
     double map(double what, double f1, double t1, double f2, double t2) {
@@ -267,7 +267,7 @@ public class Robot2021 extends Robot {
 
 
     void drop() { //Функция автонома: скидывание
-        boxServo.setPosition(0.8);
+        boxServo.setPosition(0.2);
         //подъём коробки
         LT.setPower(-0.6);  //начальное ускорение
         VL.setPower(-0.7);
@@ -278,14 +278,12 @@ public class Robot2021 extends Robot {
         VL.setPower(0);
         delay(500);
         //серво-открыть
-        boxServo.setPosition(0.25);
+        boxServo.setPosition(0.55);
         delay(1000);
         //серво-закрыть
-        boxServo.setPosition(0.8);
+        boxServo.setPosition(0.2);
         delay(500);
-        go(20);
-        delay(500);
-        //опускание коробки
+        go(20);        //опускание коробки
         LT.setPower(0.5);
         VL.setPower(0.5);
         delay(900);
