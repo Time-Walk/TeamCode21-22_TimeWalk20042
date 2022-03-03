@@ -122,14 +122,18 @@ public class Robot2021 extends Robot {
             d1 = d1 * -1;
             errFix=2;
         }
-        while ( Math.abs(degrees - getAngle()) > 5  && L.opModeIsActive()) {
+        while ( Math.abs(degrees - getAngle()) > 2  && L.opModeIsActive()) {
                 if (getAngle() > 0 && errFix==1) { d1 = d1 * -1; errFix=0; }
                 if (getAngle() < 0 && errFix==2) { d1 = d1 * -1; errFix=0; }
                 k = 0.9;
-                double pwf = pw * (k * (map(degrees - getAngle(), 0, d1, 0, 0.4)+0.4)); //Прапорциональный регулятор
-                setMtPower(pwf, pwf, pwf, pwf);
+                double pwf = pw * (k * (map(degrees - getAngle(), 0, d1, 0, 0.4)+0.25)); //Пропорциональный регулятор
+                setMtPower(pwf, pwf, pwf, pwf);telemetry.addData("degrees", degrees);
                 telemetry.addData("d1", d1);
-                telemetry.addData("getAn", getAngle());
+                telemetry.addData("degrees - getaAngle()", degrees-getAngle());
+                telemetry.addData("getAngle()", getAngle());
+                telemetry.addData("k", k);
+                telemetry.addData("map", map(degrees - getAngle(), 0, degrees, 0.5, 1));
+                telemetry.addData("pw", pw);
                 telemetry.addData("pwf", pwf);
                 telemetry.update();
             }
@@ -231,7 +235,7 @@ public class Robot2021 extends Robot {
         double cc = (400 * cm) / 32.97;
         while ( cc - LB.getCurrentPosition() > 5 && L.opModeIsActive()) {
             k = 0.9;
-            double pwf = pw * (k * map(cc - LB.getCurrentPosition(), 0, cc, 0, 0.3)+0.2); //Прапорциональный регулятор
+            double pwf = pw * (k * map(cc - LB.getCurrentPosition(), 0, cc, 0, 0.3)+0.2); //Пропорциональный регулятор
             setMtPower(-pwf, -pwf, pwf, pwf);
         }
         setMtPower(0, 0, 0, 0);
@@ -254,7 +258,7 @@ public class Robot2021 extends Robot {
         double cc = -((400 * cm) / 32.97);
         while ( cc - LB.getCurrentPosition() < -5  && L.opModeIsActive()) {
             k = 1;
-            double pwf = pw * (k * map(cc - LB.getCurrentPosition(), 0, cc, 0, 0.3)+0.2); //Прапорциональный регулятор
+            double pwf = pw * (k * map(cc - LB.getCurrentPosition(), 0, cc, 0, 0.3)+0.2); //Пропорциональный регулятор
             setMtPower(-pwf, -pwf, pwf, pwf);
         }
         setMtPower(0, 0, 0, 0);
