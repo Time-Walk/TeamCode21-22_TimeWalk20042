@@ -127,9 +127,10 @@ public class Robot2021 extends Robot {
                 if (getAngle() < 0 && errFix==2) { d1 = d1 * -1; errFix=0; }
                 k = 0.9;
                 double pwf = pw * (k * (map(degrees - getAngle(), 0, d1, 0, 0.4)+0.25)); //Пропорциональный регулятор
-                setMtPower(pwf, pwf, pwf, pwf);telemetry.addData("degrees", degrees);
+                setMtPower(pwf, pwf, pwf, pwf);
+                telemetry.addData("degrees", degrees);
                 telemetry.addData("d1", d1);
-                telemetry.addData("degrees - getaAngle()", degrees-getAngle());
+                telemetry.addData("degrees - getAngle()", degrees-getAngle());
                 telemetry.addData("getAngle()", getAngle());
                 telemetry.addData("k", k);
                 telemetry.addData("map", map(degrees - getAngle(), 0, degrees, 0.5, 1));
