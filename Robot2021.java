@@ -155,6 +155,10 @@ public class Robot2021 extends Robot {
         }
         if ( gamepad1.b ) {
         }
+        /*if ( gamepad2.dpad_right ) { pos+=0.1; delay(1000);  }
+        if ( gamepad2.dpad_left ) { pos-=0.1; delay(1000); }
+        telemetry.addData("pos", pos);
+        telemetry.update();*/
     }
 
     void smartRotate() { //Помощь для драйверов
@@ -180,10 +184,10 @@ public class Robot2021 extends Robot {
 
     void servoController() { //Открытие коробки
         if ( gamepad2.dpad_up ) {
-            boxServo.setPosition(0.55);
+            boxServo.setPosition(1);
         }
         if ( gamepad2.dpad_down ) {
-            boxServo.setPosition(0.2);
+            boxServo.setPosition(0.7);
         }
     }
 
