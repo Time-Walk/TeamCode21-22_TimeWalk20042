@@ -133,7 +133,9 @@ public class Robot2021 extends Robot {
 
                 double kd = 0;
                 double ErD = Er - ErLast;
-                double D = kd * ErD;
+                double D = kd * ErD * (1/Er);
+
+                if (Math.signum(D) > Math.signum(P)) { D=P; }
 
                 double kr = 0.25;
                 double Rele = kr * Math.signum(Er);
