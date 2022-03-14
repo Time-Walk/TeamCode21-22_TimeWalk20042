@@ -349,10 +349,6 @@ public class Robot2021 extends Robot {
         delay(500);
     }
 
-    double map(double what, double f1, double t1, double f2, double t2) {
-        return (what * (f2 + t2)) / (f1 + t1);
-    }
-
 
     void drop() { //Функция автонома: скидывание
         boxServo.setPosition(0.2);
