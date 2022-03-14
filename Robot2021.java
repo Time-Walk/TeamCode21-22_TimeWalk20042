@@ -26,8 +26,6 @@ public class Robot2021 extends Robot {
     Orientation angles;
     Acceleration gravity;
 
-    double k; //Коэффициент
-
     double vlpw=0; //Мощность для вала
 
     @Override
@@ -108,40 +106,60 @@ public class Robot2021 extends Robot {
 
     void rotate (double degrees) { //Функция автонома: поворот
         double pw = 1;
-        double d1 = -degrees;
-        double errFix=0;
-        if (d1 > 0) { pw = -1; }
+        double Er0 = -degrees;
+        double errorFix=0;
+        double ErLast = 0;
+        if (Er0 > 0) { pw = -1; }
         degrees = getAngle() - degrees;
         if (degrees < -180) {
             degrees += 360;
-            d1 = d1 * -1;
-            errFix=1;
+            Er0 = Er0 * -1;
+            errorFix=1;
         }
         if (degrees > 180) {
             degrees -= 360;
-            d1 = d1 * -1;
-            errFix=2;
+            Er0 = Er0 * -1;
+            errorFix=2;
         }
         while ( Math.abs(degrees - getAngle()) > 2  && L.opModeIsActive()) {
-                if (getAngle() > 0 && errFix==1) { d1 = d1 * -1; errFix=0; }
-                if (getAngle() < 0 && errFix==2) { d1 = d1 * -1; errFix=0; }
-                k = 0.9;
-                double pwf = pw * (k * (map(degrees - getAngle(), 0, d1, 0, 0.4)+0.25)); //Пропорциональный регулятор
+                if (getAngle() > 0 && errorFix==1) { Er0 = Er0 * -1; errorFix=0; }
+                if (getAngle() < 0 && errorFix==2) { Er0 = Er0 * -1; errorFix=0; }
+
+
+                double Er = degrees - getAngle();
+
+                double kp = 0.9;
+                double P = kp * Er0 * Er;
+
+                double kd = 0;
+                double ErD = Er - ErLast;
+                double D = kd * ErD;
+
+                double kr = 0.25;
+                double Rele = kr * Math.signum(Er);
+
+
+                double pwf = pw * (P+D+Rele); //Регулятор
+
+
                 setMtPower(pwf, pwf, pwf, pwf);
+
                 telemetry.addData("degrees", degrees);
-                telemetry.addData("d1", d1);
-                telemetry.addData("degrees - getAngle()", degrees-getAngle());
+                telemetry.addData("Er0", Er0);
+                telemetry.addData("Er", Er);
                 telemetry.addData("getAngle()", getAngle());
-                telemetry.addData("k", k);
-                telemetry.addData("map", map(degrees - getAngle(), 0, degrees, 0.5, 1));
+                telemetry.addData("kp", kp);
+                telemetry.addData("Rele", Rele);
+                telemetry.addData("D", D);
                 telemetry.addData("pw", pw);
                 telemetry.addData("pwf", pwf);
                 telemetry.update();
+
             }
-        telemetry.addData("a", "a");
+        telemetry.addData("Rotate state", "Done");
         telemetry.update();
         setMtPower(0, 0, 0, 0);
-        delay(1000);
+        delay(500);
     }
 
     void duckVoid(double pw) { //Функция автонома: скидывание уточки
@@ -226,6 +244,10 @@ public class Robot2021 extends Robot {
 
     void go(double cm) { //
         double pw = 1;
+        double cc = (400 * cm) / 32.97;
+        double Er0 = -cc;
+        double errorFix=0;
+        double ErLast = 0;
         LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         /*if (degrees < -180) {
@@ -237,18 +259,49 @@ public class Robot2021 extends Robot {
             pw = pw * -1;
         }*/
         //while (LB.getCurrentPosition() < m) { setMtPower(-pw, -pw, pw, pw); }
-        double cc = (400 * cm) / 32.97;
         while ( cc - LB.getCurrentPosition() > 5 && L.opModeIsActive()) {
-            k = 0.9;
-            double pwf = pw * (k * map(cc - LB.getCurrentPosition(), 0, cc, 0, 0.3)+0.2); //Пропорциональный регулятор
-            setMtPower(-pwf, -pwf, pwf, pwf);
+
+
+            double Er = cc - LB.getCurrentPosition();
+
+            double kp = 0.9;
+            double P = kp * Er0 * Er;
+
+            double kd = 0;
+            double ErD = Er - ErLast;
+            double D = kd * ErD;
+
+            double kr = 0.25;
+            double Rele = kr * Math.signum(Er);
+
+
+            double pwf = pw * (P+D+Rele); //Регулятор
+
+
+            telemetry.addData("cc", cc);
+            telemetry.addData("Er0", Er0);
+            telemetry.addData("Er", Er);
+            telemetry.addData("getCurrentPosition", LB.getCurrentPosition());
+            telemetry.addData("kp", kp);
+            telemetry.addData("Rele", Rele);
+            telemetry.addData("D", D);
+            telemetry.addData("pw", pw);
+            telemetry.addData("pwf", pwf);
+            telemetry.update();
+
         }
+        telemetry.addData("Go state", "Done");
+        telemetry.update();
         setMtPower(0, 0, 0, 0);
         delay(500);
     }
 
     void back(double cm) { //
-        double pw = -1;
+        double pw = 1;
+        double cc = -(400 * cm) / 32.97;
+        double Er0 = -cc;
+        double errorFix=0;
+        double ErLast = 0;
         LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         /*if (degrees < -180) {
@@ -260,12 +313,38 @@ public class Robot2021 extends Robot {
             pw = pw * -1;
         }*/
         //while (LB.getCurrentPosition() < m) { setMtPower(-pw, -pw, pw, pw); }
-        double cc = -((400 * cm) / 32.97);
         while ( cc - LB.getCurrentPosition() < -5  && L.opModeIsActive()) {
-            k = 1;
-            double pwf = pw * (k * map(cc - LB.getCurrentPosition(), 0, cc, 0, 0.3)+0.2); //Пропорциональный регулятор
-            setMtPower(-pwf, -pwf, pwf, pwf);
+
+
+            double Er = cc - LB.getCurrentPosition();
+
+            double kp = 0.9;
+            double P = kp * Er0 * Er;
+
+            double kd = 0;
+            double ErD = Er - ErLast;
+            double D = kd * ErD;
+
+            double kr = 0.25;
+            double Rele = kr * Math.signum(Er);
+
+
+            double pwf = pw * (P+D+Rele); //Регулятор
+
+
+            telemetry.addData("cc", cc);
+            telemetry.addData("Er0", Er0);
+            telemetry.addData("Er", Er);
+            telemetry.addData("getCurrentPosition", LB.getCurrentPosition());
+            telemetry.addData("kp", kp);
+            telemetry.addData("Rele", Rele);
+            telemetry.addData("D", D);
+            telemetry.addData("pw", pw);
+            telemetry.addData("pwf", pwf);
+            telemetry.update();
+
         }
+        telemetry.addData("Back state", "Done");
         setMtPower(0, 0, 0, 0);
         delay(500);
     }
