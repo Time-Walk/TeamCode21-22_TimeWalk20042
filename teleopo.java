@@ -22,7 +22,7 @@ public class teleopo extends LinearOpMode {
             R.servoController();
             R.smartRotate();
             R.valController();
-            //R.DEBUG();
+            R.DEBUG();
         }
 
     }

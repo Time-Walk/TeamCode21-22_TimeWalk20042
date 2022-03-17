@@ -112,54 +112,58 @@ public class Robot2021 extends Robot {
         if (Er0 > 0) { pw = -1; }
         degrees = getAngle() - degrees;
         if (degrees < -180) {
-            degrees += 360;
+            //degrees += 360;
             Er0 = Er0 * -1;
+            pw *= -1;
             errorFix=1;
         }
         if (degrees > 180) {
-            degrees -= 360;
+            //degrees -= 360;
             Er0 = Er0 * -1;
+            pw *= -1;
             errorFix=2;
         }
-        while ( Math.abs(degrees - getAngle()) > 2  && L.opModeIsActive()) {
-                if (getAngle() > 0 && errorFix==1) { Er0 = Er0 * -1; errorFix=0; }
-                if (getAngle() < 0 && errorFix==2) { Er0 = Er0 * -1; errorFix=0; }
+        while ( Math.abs(degrees - getAngle()) > 3  && L.opModeIsActive()) {
+                if (getAngle() > 0 && errorFix==1) { Er0 = Er0 * -1; degrees += 360; pw *= -1; errorFix=0; }
+                if (getAngle() < 0 && errorFix==2) { Er0 = Er0 * -1; degrees -= 360; pw *= -1; errorFix=0; }
 
-
-                double Er = degrees - getAngle();
+                double Er = degrees - (getAngle());
 
                 double kp = 0.9;
-                double P = kp * Er0 * Er;
+                double P = kp * Er / Er0 * pw;
 
-                double kd = 0;
+                double kd = -0.05;
                 double ErD = Er - ErLast;
                 double D = kd * ErD * (1/Er);
 
-                if (Math.signum(D) > Math.signum(P)) { D=P; }
+                if (Math.signum(D) > Math.signum(P)) {  D=P; }
 
-                double kr = 0.25;
+                double kr = -0.05;
                 double Rele = kr * Math.signum(Er);
 
+                ErLast = Er;
 
-                double pwf = pw * (P+D+Rele); //Регулятор
+
+                double pwf = P+D+Rele; //Регулятор
 
 
                 setMtPower(pwf, pwf, pwf, pwf);
 
                 telemetry.addData("degrees", degrees);
-                telemetry.addData("Er0", Er0);
-                telemetry.addData("Er", Er);
                 telemetry.addData("getAngle()", getAngle());
+                telemetry.addData("Er (degrees - getAngle)", Er);
+                telemetry.addData("Er0", Er0);
                 telemetry.addData("kp", kp);
-                telemetry.addData("Rele", Rele);
+                telemetry.addData("P", P);
                 telemetry.addData("D", D);
+                telemetry.addData("Rele", Rele);
                 telemetry.addData("pw", pw);
                 telemetry.addData("pwf", pwf);
                 telemetry.update();
 
             }
-        telemetry.addData("Rotate state", "Done");
-        telemetry.update();
+        //telemetry.addData("Rotate state", "Done");
+        //telemetry.update();
         setMtPower(0, 0, 0, 0);
         delay(500);
     }
@@ -170,23 +174,20 @@ public class Robot2021 extends Robot {
         UP.setPower(0);
     }
 
+
     void DEBUG() { //Функция для дебагинга
-        if ( gamepad1.x ) {
+        /*if ( gamepad1.x ) {
         }
         if ( gamepad1.b ) {
-        }
-        /*if ( gamepad2.dpad_right ) { pos+=0.1; delay(1000);  }
-        if ( gamepad2.dpad_left ) { pos-=0.1; delay(1000); }
-        telemetry.addData("pos", pos);
-        telemetry.update();*/
+        }*/
     }
 
     void smartRotate() { //Помощь для драйверов
         if ( gamepad1.x ) {
-            rotate(-45);
+            rotate(-90);
         }
         if ( gamepad1.b ) {
-            rotate(45);
+            rotate(90);
         }
     }
 
@@ -204,10 +205,12 @@ public class Robot2021 extends Robot {
 
     void servoController() { //Открытие коробки
         if ( gamepad2.dpad_up ) {
+            boxServo.setPosition(0.65);
+            delay(100);
             boxServo.setPosition(1);
         }
         if ( gamepad2.dpad_down ) {
-            boxServo.setPosition(0.7);
+            boxServo.setPosition(0.4);
         }
     }
 
