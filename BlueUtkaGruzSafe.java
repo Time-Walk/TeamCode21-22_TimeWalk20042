@@ -18,11 +18,12 @@ public class BlueUtkaGruzSafe extends LinearOpMode { //YOU SHOULD CHANGE HERE TO
         R.rotate(-80);
         R.back(25);
         R.drop();
-        R.go(70);
-        R.rotate(80);
         R.go(80);
-        //R.rotate(-10);
-        R.go(45);
+        R.back(15);
+        R.rotate(80);
+        R.go(70);
+        R.rotate(20);
+        R.go(40);
         R.duckVoid(1);
         R.back(80);
 

@@ -16,9 +16,9 @@ public class OpenBox extends LinearOpMode { //YOU SHOULD CHANGE HERE TO YOUR FIL
 
         //okay, let's go!
 
-        R.boxServo.setPosition(0);
+        R.boxServo.setPosition(1);
         R.delay(5000);
-        R.boxServo.setPosition(0.2);
+        R.boxServo.setPosition(0.4);
         R.delay(1000);
 
 

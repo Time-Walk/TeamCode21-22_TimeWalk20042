@@ -28,6 +28,8 @@ public class Robot2021 extends Robot {
 
     double vlpw=0; //Мощность для вала
 
+    double obg=0;
+
     @Override
     void init() { //Инициализация:
         UP = hwmp.get(DcMotor.class, "UP"); //Моторов
@@ -149,7 +151,7 @@ public class Robot2021 extends Robot {
 
                 setMtPower(pwf, pwf, pwf, pwf);
 
-                telemetry.addData("degrees", degrees);
+                /*telemetry.addData("degrees", degrees);
                 telemetry.addData("getAngle()", getAngle());
                 telemetry.addData("Er (degrees - getAngle)", Er);
                 telemetry.addData("Er0", Er0);
@@ -159,11 +161,9 @@ public class Robot2021 extends Robot {
                 telemetry.addData("Rele", Rele);
                 telemetry.addData("pw", pw);
                 telemetry.addData("pwf", pwf);
-                telemetry.update();
+                telemetry.update();*/
 
             }
-        //telemetry.addData("Rotate state", "Done");
-        //telemetry.update();
         setMtPower(0, 0, 0, 0);
         delay(500);
     }
@@ -217,31 +217,35 @@ public class Robot2021 extends Robot {
     Thread liftControllerT = new Thread() { //Поток для лифта
         @Override
         public void run() {
+            double Er = 0;
+            double ErLast = 0;
+            double tt=0;
             while (L.opModeIsActive() && !L.isStopRequested()) {
-                LT.setPower(gamepad2.left_stick_y/2.5); //Управление лифтом стиком
+                LT.setPower(gamepad2.left_stick_y/-2.5); //Управление лифтом стиком
                 if (gamepad2.y) { //Поднять до конца
-                    LT.setPower(-0.6);  //начальное ускорение
+                    LT.setPower(0.6);  //начальное ускорение
                     delay(400);
-                    LT.setPower(-0.35);    //спокойная скорость
+                    LT.setPower(0.35);    //спокойная скорость
                     delay(400);
                     LT.setPower(0);      //стоп
                 }
                 if (gamepad2.a) { //Опустить
-                    LT.setPower(0.3);
+                    LT.setPower(-0.3);
                     delay(900);
                     LT.setPower(0);
                 }
-                if (gamepad2.x) { //Поднять до вертикального положения
-                    LT.setPower(-0.6);  //начальное ускорение
-                    delay(400);
-                    LT.setPower(-0.35);    //спокойная скорость
-                    delay(600);
-                    LT.setPower(0);      //стоп
-                }
-                if (gamepad2.b) { //Опустить
-                    LT.setPower(0.6);
-                    delay(500);
-                    LT.setPower(0);
+                if (gamepad2.left_stick_y == 0 && !gamepad2.y && !gamepad2.a) {
+                    Er = LT.getCurrentPosition();
+                    double kd = - 1;
+                    double pwf = kd * (Er - ErLast);
+                    tt += 1;
+                    LT.setPower(pwf);
+                    telemetry.addData("getCurr", UP.getCurrentPosition());
+                    telemetry.addData("pwf", pwf);
+                    telemetry.addData("Er-ErLast", Er-ErLast);
+                    telemetry.addData("Entry", tt);
+                    telemetry.update();
+                    ErLast = Er;
                 }
             }
         }
@@ -250,7 +254,7 @@ public class Robot2021 extends Robot {
     void go(double cm) { //
         double pw = 1;
         double cc = (400 * cm) / 32.97;
-        double Er0 = -cc;
+        double Er0 = cc;
         double errorFix=0;
         double ErLast = 0;
         LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -264,26 +268,31 @@ public class Robot2021 extends Robot {
             pw = pw * -1;
         }*/
         //while (LB.getCurrentPosition() < m) { setMtPower(-pw, -pw, pw, pw); }
-        while ( cc - LB.getCurrentPosition() > 5 && L.opModeIsActive()) {
-
+        while ( cc - LB.getCurrentPosition() > 10 && L.opModeIsActive()) {
 
             double Er = cc - LB.getCurrentPosition();
 
             double kp = 0.9;
-            double P = kp * Er0 * Er;
+            double P = kp * Er / Er0 * pw;
 
-            double kd = 0;
+            double kd = 0.15;
             double ErD = Er - ErLast;
-            double D = kd * ErD;
+            double D = kd * ErD * (1/Er);
 
-            double kr = 0.25;
+            if (Math.signum(D) > Math.signum(P)) {  D=P; }
+
+            double kr = 0.1;
             double Rele = kr * Math.signum(Er);
+
+            ErLast = Er;
 
 
             double pwf = pw * (P+D+Rele); //Регулятор
 
+            setMtPower(-pwf, -pwf, pwf, pwf);
 
-            telemetry.addData("cc", cc);
+
+            /*telemetry.addData("cc", cc);
             telemetry.addData("Er0", Er0);
             telemetry.addData("Er", Er);
             telemetry.addData("getCurrentPosition", LB.getCurrentPosition());
@@ -292,11 +301,9 @@ public class Robot2021 extends Robot {
             telemetry.addData("D", D);
             telemetry.addData("pw", pw);
             telemetry.addData("pwf", pwf);
-            telemetry.update();
+            telemetry.update();*/
 
         }
-        telemetry.addData("Go state", "Done");
-        telemetry.update();
         setMtPower(0, 0, 0, 0);
         delay(500);
     }
@@ -318,26 +325,31 @@ public class Robot2021 extends Robot {
             pw = pw * -1;
         }*/
         //while (LB.getCurrentPosition() < m) { setMtPower(-pw, -pw, pw, pw); }
-        while ( cc - LB.getCurrentPosition() < -5  && L.opModeIsActive()) {
-
+        while ( Math.abs(cc - LB.getCurrentPosition()) > 10  && L.opModeIsActive()) {
 
             double Er = cc - LB.getCurrentPosition();
 
             double kp = 0.9;
-            double P = kp * Er0 * Er;
+            double P = kp * Er / Er0 * pw;
 
-            double kd = 0;
+            double kd = 0.15;
             double ErD = Er - ErLast;
-            double D = kd * ErD;
+            double D = kd * ErD * (1/Er);
 
-            double kr = 0.25;
+            if (Math.signum(D) > Math.signum(P)) {  D=P; }
+
+            double kr = 0.1;
             double Rele = kr * Math.signum(Er);
+
+            ErLast = Er;
 
 
             double pwf = pw * (P+D+Rele); //Регулятор
 
+            setMtPower(-pwf, -pwf, pwf, pwf);
 
-            telemetry.addData("cc", cc);
+
+            /*telemetry.addData("cc", cc);
             telemetry.addData("Er0", Er0);
             telemetry.addData("Er", Er);
             telemetry.addData("getCurrentPosition", LB.getCurrentPosition());
@@ -346,10 +358,10 @@ public class Robot2021 extends Robot {
             telemetry.addData("D", D);
             telemetry.addData("pw", pw);
             telemetry.addData("pwf", pwf);
-            telemetry.update();
+            telemetry.addData("m", Math.abs(cc-LB.getCurrentPosition()));
+            telemetry.update();*/
 
         }
-        telemetry.addData("Back state", "Done");
         setMtPower(0, 0, 0, 0);
         delay(500);
     }
@@ -358,22 +370,24 @@ public class Robot2021 extends Robot {
     void drop() { //Функция автонома: скидывание
         boxServo.setPosition(0.2);
         //подъём коробки
-        LT.setPower(-0.6);  //начальное ускорение
+        LT.setPower(0.6);  //начальное ускорение
         VL.setPower(-0.7);
-        delay(400);
-        LT.setPower(-0.35);    //спокойная скорость
+        delay(450);
+        LT.setPower(0.35);    //спокойная скорость
         delay(400);
         LT.setPower(0);      //стоп
         VL.setPower(0);
         delay(500);
         //серво-открыть
-        boxServo.setPosition(0.55);
+        boxServo.setPosition(0.65);
+        delay(100);
+        boxServo.setPosition(1);
         delay(1000);
         //серво-закрыть
-        boxServo.setPosition(0.2);
+        boxServo.setPosition(0.4);
         delay(500);
         go(20);        //опускание коробки
-        LT.setPower(0.5);
+        LT.setPower(-0.5);
         VL.setPower(0.5);
         delay(900);
         VL.setPower(0);

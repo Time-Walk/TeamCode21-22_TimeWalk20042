@@ -17,7 +17,7 @@ public class BlueGruzSklad extends LinearOpMode {
         R.back(50);
         R.drop();
         R.back(10);
-        R.rotate(-80);
+        R.rotate(-90);
         R.goForward(1200, -0.9);
 
     }

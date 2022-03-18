@@ -19,14 +19,13 @@ public class RedUtkaGruzSklad extends LinearOpMode {
 		R.back(30);
 		R.drop();
 		R.go(60);
-		R.rotateForTime(1000, 0.5);
+		R.rotate(95);
 		R.back(60);
-		R.rotate(-10);
-		R.back(40);
+		R.back(50);
 		R.duckVoid(-1);
 		R.go(30);
-		R.rotate(-80);
-		R.goForward(2000, -0.8);
+		R.rotate(-90);
+		R.goForward(2300, -0.8);
 
     }
 

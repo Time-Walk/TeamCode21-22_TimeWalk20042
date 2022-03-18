@@ -15,9 +15,5 @@ public class AUTOFORTEST extends LinearOpMode {
         R.init();
         waitForStart();
         //okay, let's go!
-        R.rotate(90);
-
-
-    }
-
-}
+        R.drop();
+}}
