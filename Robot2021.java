@@ -224,7 +224,7 @@ public class Robot2021 extends Robot {
                 LT.setPower(gamepad2.left_stick_y/-2.5); //Управление лифтом стиком
                 if (gamepad2.y) { //Поднять до конца
                     LT.setPower(0.6);  //начальное ускорение
-                    delay(400);
+                    delay(450);
                     LT.setPower(0.35);    //спокойная скорость
                     delay(400);
                     LT.setPower(0);      //стоп
@@ -372,7 +372,7 @@ public class Robot2021 extends Robot {
         //подъём коробки
         LT.setPower(0.6);  //начальное ускорение
         VL.setPower(-0.7);
-        delay(450);
+        delay(500);
         LT.setPower(0.35);    //спокойная скорость
         delay(400);
         LT.setPower(0);      //стоп

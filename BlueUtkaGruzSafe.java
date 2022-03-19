@@ -14,18 +14,23 @@ public class BlueUtkaGruzSafe extends LinearOpMode { //YOU SHOULD CHANGE HERE TO
         waitForStart();
 
         //okay, let's go!
-        R.back(120);
-        R.rotate(-80);
-        R.back(25);
-        R.drop();
-        R.go(80);
-        R.back(15);
-        R.rotate(80);
-        R.go(70);
-        R.rotate(20);
-        R.go(40);
+        R.rotate(-15);
+        R.back(30);
         R.duckVoid(1);
-        R.back(80);
+        R.go(30);
+        R.rotate(-50);
+        R.goForward(300, 0.8);
+        R.back(120);
+        R.rotate(-90);
+        R.VL.setPower(-0.8);
+        R.delay(200);
+        R.VL.setPower(0);
+        R.back(45);
+        R.drop();
+        R.go(100);
+        R.goForward(300, -0.2);
+        R.rotate(90);
+        R.go(40);
 
     }
 

@@ -22,12 +22,12 @@ public class BlueUtkaGruzSklad extends LinearOpMode {
 		R.back(15);
 		R.rotate(80);
 		R.go(70);
-		R.rotate(21);
-		R.go(40);
+		R.rotate(19);
+		R.go(45);
 		R.duckVoid(1);
 		R.back(20);
-		R.rotate(-95);
-		R.goForward(2300, -0.8);
+		R.rotate(-90);
+		R.goForward(2400, -0.8);
 
 
     }

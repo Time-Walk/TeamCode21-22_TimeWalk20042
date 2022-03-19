@@ -14,10 +14,11 @@ public class BlueGruzSklad extends LinearOpMode {
         waitForStart();
 
         //okay, let's go!
+        R.delay(5500);
         R.back(50);
         R.drop();
         R.back(10);
-        R.rotate(-90);
+        R.rotate(-80);
         R.goForward(1200, -0.9);
 
     }

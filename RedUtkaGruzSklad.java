@@ -25,7 +25,7 @@ public class RedUtkaGruzSklad extends LinearOpMode {
 		R.duckVoid(-1);
 		R.go(30);
 		R.rotate(-90);
-		R.goForward(2300, -0.8);
+		R.goForward(2400, -0.8);
 
     }
 
