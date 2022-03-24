@@ -385,7 +385,7 @@ public class Robot2021 extends Robot {
         delay(1000);
         //серво-закрыть
         boxServo.setPosition(0.4);
-        delay(500);
+        delay(700);
         go(20);        //опускание коробки
         LT.setPower(-0.5);
         VL.setPower(0.5);
